@@ -28,14 +28,10 @@ group = "net.onelitefeather"
 
 
 ext {
-    val git: Grgit = Grgit.open {
-        dir = File("$rootDir/.git")
-    }
-    val revision = git.head().abbreviatedId
-    versionExtension = "%s+%s".format(Locale.ROOT, snapshot, revision)
+    versionExtension = "%s".format(Locale.ROOT, snapshot)
 }
 
-group = "net.onelitefeather"
+group = "net.onelitefeather.gitpatcher"
 
 
 
