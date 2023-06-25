@@ -5,7 +5,7 @@ import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.tasks.Nested
 
-class PatcherExtension(project: Project) {
+open class PatcherExtension(project: Project) {
 
     @Nested val modules: NamedDomainObjectContainer<PatchModule> = project.container(PatchModule::class.java)
 
