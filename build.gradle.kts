@@ -55,3 +55,12 @@ tasks.test {
 kotlin {
     jvmToolchain(11)
 }
+
+gradlePlugin {
+    plugins {
+        create("GitPatcher") {
+            id = "net.onelitefeather.gitpatcher"
+            implementationClass = "net.onelitefeather.GitPatcherPlugin"
+        }
+    }
+}
