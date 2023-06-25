@@ -60,7 +60,7 @@ gradlePlugin {
     plugins {
         create("GitPatcher") {
             id = "net.onelitefeather.gitpatcher"
-            implementationClass = "net.onelitefeather.GitPatcherPlugin"
+            implementationClass = "net.onelitefeather.gitpatcher.GitPatcherPlugin"
         }
     }
 }
