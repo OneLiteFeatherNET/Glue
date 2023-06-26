@@ -40,7 +40,7 @@ abstract class Git(repo: File) {
     }
 
     fun getRef(): String {
-        TODO()
+        return run("git", "rev-parse", "HEAD").text().lines().first().trim()
     }
 
     fun run(name: String, vararg input: String): Command {
