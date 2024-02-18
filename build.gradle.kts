@@ -4,7 +4,7 @@ import java.util.*
 plugins {
     kotlin("jvm") version "1.8.22"
     `java-gradle-plugin`
-    id("org.ajoberstar.grgit") version "5.2.0"
+    id("org.ajoberstar.grgit") version "5.2.2"
     id("com.gradle.plugin-publish") version "1.2.0"
 }
 
