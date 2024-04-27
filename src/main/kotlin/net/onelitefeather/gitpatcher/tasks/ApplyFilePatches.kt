@@ -144,6 +144,8 @@ abstract class ApplyFilePatches : BaseTask() {
             .setSign(false)
             .call()
         git.branchDelete().setBranchNames("current").setForce(true).call()
+        git.tagDelete().setTags("file").call()
+        git.tag().setName("file").setTagger(ident).setSigned(false).call()
         git.branchCreate().setName("current").setStartPoint("file").call()
         git.checkout().setName("current").call()
         git.close()
