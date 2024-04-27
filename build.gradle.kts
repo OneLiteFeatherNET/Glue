@@ -2,7 +2,7 @@ import org.ajoberstar.grgit.Grgit
 import java.util.*
 
 plugins {
-    kotlin("jvm") version "1.8.22"
+    `kotlin-dsl`
     `java-gradle-plugin`
     id("org.ajoberstar.grgit") version "5.2.0"
     id("com.gradle.plugin-publish") version "1.2.0"
@@ -39,10 +39,18 @@ version = "%s%s".format(Locale.ROOT, baseVersion, versionExtension)
 
 repositories {
     mavenCentral()
+    maven("https://repo.papermc.io/repository/maven-public/") {
+        mavenContent {
+            includeGroup("codechicken")
+        }
+    }
 }
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("codechicken:DiffPatch:1.5.0.30")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:6.9.0.202403050737-r")
+
 }
 
 tasks.test {
