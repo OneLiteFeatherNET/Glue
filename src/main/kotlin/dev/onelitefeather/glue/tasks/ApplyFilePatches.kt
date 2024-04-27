@@ -1,4 +1,4 @@
-package net.onelitefeather.gitpatcher.tasks
+package dev.onelitefeather.glue.tasks
 
 import codechicken.diffpatch.cli.PatchOperation
 import codechicken.diffpatch.match.FuzzyLineMatcher
@@ -6,7 +6,7 @@ import codechicken.diffpatch.util.LoggingOutputStream
 import codechicken.diffpatch.util.PatchMode
 import java.io.PrintStream
 import java.time.Instant
-import net.onelitefeather.gitpatcher.utils.convertToPath
+import dev.onelitefeather.glue.utils.convertToPath
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.ResetCommand
 import org.eclipse.jgit.lib.PersonIdent

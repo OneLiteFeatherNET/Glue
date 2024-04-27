@@ -1,9 +1,9 @@
-package net.onelitefeather.gitpatcher.upstream
+package dev.onelitefeather.glue.upstream
 
-import net.onelitefeather.gitpatcher.tasks.ApplyFilePatches
-import net.onelitefeather.gitpatcher.tasks.RebuildGitPatches
-import net.onelitefeather.gitpatcher.utils.capitalized
-import net.onelitefeather.gitpatcher.utils.providerFor
+import dev.onelitefeather.glue.tasks.ApplyFilePatches
+import dev.onelitefeather.glue.tasks.RebuildGitPatches
+import dev.onelitefeather.glue.utils.capitalized
+import dev.onelitefeather.glue.utils.providerFor
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
@@ -15,7 +15,7 @@ open class DefaultPatcherUpstream(
     private val name: String,
     protected val objects: ObjectFactory,
     protected val tasks: TaskContainer
-) : PatcherUpstream  {
+) : PatcherUpstream {
 
     override val upstreamDirPath: Property<String> = objects.property()
     override val upstreamDir: DirectoryProperty = objects.directoryProperty()

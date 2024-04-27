@@ -1,12 +1,12 @@
-package net.onelitefeather.gitpatcher.tasks
+package dev.onelitefeather.glue.tasks
 
 import codechicken.diffpatch.cli.DiffOperation
 import codechicken.diffpatch.util.LogLevel
 import codechicken.diffpatch.util.LoggingOutputStream
 import java.io.PrintStream
 import kotlin.io.path.createDirectory
-import net.onelitefeather.gitpatcher.utils.convertToPath
-import net.onelitefeather.gitpatcher.utils.ensureClean
+import dev.onelitefeather.glue.utils.convertToPath
+import dev.onelitefeather.glue.utils.ensureClean
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.lib.RepositoryBuilder
 import org.eclipse.jgit.lib.RepositoryCache

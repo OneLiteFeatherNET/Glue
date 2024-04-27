@@ -1,6 +1,6 @@
-package net.onelitefeather.gitpatcher.upstream
+package dev.onelitefeather.glue.upstream
 
-import net.onelitefeather.gitpatcher.tasks.CheckoutRepo
+import dev.onelitefeather.glue.tasks.CheckoutRepo
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 

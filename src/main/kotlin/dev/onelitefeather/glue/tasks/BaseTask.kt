@@ -1,4 +1,4 @@
-package net.onelitefeather.gitpatcher.tasks
+package dev.onelitefeather.glue.tasks
 
 import javax.inject.Inject
 import org.gradle.api.DefaultTask

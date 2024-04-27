@@ -1,8 +1,8 @@
-package net.onelitefeather.gitpatcher.upstream
+package dev.onelitefeather.glue.upstream
 
-import net.onelitefeather.gitpatcher.tasks.CheckoutRepo
-import net.onelitefeather.gitpatcher.utils.capitalized
-import net.onelitefeather.gitpatcher.utils.providerFor
+import dev.onelitefeather.glue.tasks.CheckoutRepo
+import dev.onelitefeather.glue.utils.capitalized
+import dev.onelitefeather.glue.utils.providerFor
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property

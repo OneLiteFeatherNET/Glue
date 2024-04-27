@@ -1,7 +1,7 @@
-package net.onelitefeather.gitpatcher.upstream
+package dev.onelitefeather.glue.upstream
 
-import net.onelitefeather.gitpatcher.tasks.ApplyFilePatches
-import net.onelitefeather.gitpatcher.tasks.RebuildGitPatches
+import dev.onelitefeather.glue.tasks.ApplyFilePatches
+import dev.onelitefeather.glue.tasks.RebuildGitPatches
 import org.gradle.api.Named
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property

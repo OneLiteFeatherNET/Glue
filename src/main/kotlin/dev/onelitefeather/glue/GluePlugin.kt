@@ -1,12 +1,12 @@
-package net.onelitefeather.gitpatcher
+package dev.onelitefeather.glue
 
-import net.onelitefeather.gitpatcher.tasks.ApplyFilePatches
-import net.onelitefeather.gitpatcher.tasks.CheckoutRepo
-import net.onelitefeather.gitpatcher.tasks.RebuildGitPatches
-import net.onelitefeather.gitpatcher.upstream.PatcherUpstream
-import net.onelitefeather.gitpatcher.upstream.RepoPatcherUpstream
-import net.onelitefeather.gitpatcher.utils.configureTask
-import net.onelitefeather.gitpatcher.utils.fileExists
+import dev.onelitefeather.glue.tasks.ApplyFilePatches
+import dev.onelitefeather.glue.tasks.CheckoutRepo
+import dev.onelitefeather.glue.tasks.RebuildGitPatches
+import dev.onelitefeather.glue.upstream.PatcherUpstream
+import dev.onelitefeather.glue.upstream.RepoPatcherUpstream
+import dev.onelitefeather.glue.utils.configureTask
+import dev.onelitefeather.glue.utils.fileExists
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -17,12 +17,12 @@ import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.registering
 
-class GitPatcherPlugin : Plugin<Project> {
+class GluePlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        val patcher = target.extensions.create("gitpatcher", GitPatcherExtension::class, target)
+        val patcher = target.extensions.create("Glue", GlueExtension::class, target)
 
-        val applyPatches by target.tasks.registering { group = "gitpatcher" }
-        val rebuildPatches by target.tasks.registering { group = "gitpatcher" }
+        val applyPatches by target.tasks.registering { group = "Glue" }
+        val rebuildPatches by target.tasks.registering { group = "Glue" }
 
         patcher.upstreams.all {
             val upstreamTask = target.createUpstreamTask(this)
@@ -57,7 +57,7 @@ class GitPatcherPlugin : Plugin<Project> {
         val cloneTask = (upstream as? RepoPatcherUpstream)?.let { repo ->
             val cloneTask = tasks.configureTask<CheckoutRepo>(repo.upstreamTaskName) {
                 dependsOn(upstreamTask)
-                group = "gitpatcher"
+                group = "Glue"
                 repoName.convention(repo.name)
                 url.convention(repo.url)
                 ref.convention(repo.ref)
@@ -77,7 +77,7 @@ class GitPatcherPlugin : Plugin<Project> {
         val project = this
         val patchTask = (config as? RepoPatcherUpstream)?.let { repo ->
             val patchTask = tasks.configureTask<ApplyFilePatches>(config.patchTaskName) {
-                group = "gitpatcher"
+                group = "Glue"
                 dependsOn(downstreamTask)
 
                 if (downstreamTask != null) {
@@ -103,7 +103,7 @@ class GitPatcherPlugin : Plugin<Project> {
 
     private fun Project.rebuildPatchTask(config: PatcherUpstream, rebuildPatches: TaskProvider<Task>): TaskProvider<RebuildGitPatches> {
         val rebuildTask = tasks.configureTask<RebuildGitPatches>(config.rebuildTaskName) {
-            group = "gitpatcher"
+            group = "Glue"
 
             base.convention(config.upstreamDir)
             patches.convention(config.patchDir)

@@ -5,5 +5,5 @@ pluginManagement {
     }
     
 }
-rootProject.name = "GitPatcher"
+rootProject.name = "Glue"
 

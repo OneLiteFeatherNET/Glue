@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalPathApi::class)
 
-package net.onelitefeather.gitpatcher.utils
+package dev.onelitefeather.glue.utils
 
 import java.io.File
 import java.nio.file.Files

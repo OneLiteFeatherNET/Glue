@@ -1,10 +1,10 @@
-package net.onelitefeather.gitpatcher.tasks
+package dev.onelitefeather.glue.tasks
 
 import java.time.Instant
 import kotlin.io.path.createDirectories
 import kotlin.io.path.notExists
-import net.onelitefeather.gitpatcher.utils.deleteRecursive
-import net.onelitefeather.gitpatcher.utils.path
+import dev.onelitefeather.glue.utils.deleteRecursive
+import dev.onelitefeather.glue.utils.path
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.lib.RepositoryBuilder
 import org.eclipse.jgit.lib.RepositoryCache
