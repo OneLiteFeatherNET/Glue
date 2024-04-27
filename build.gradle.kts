@@ -6,7 +6,8 @@ plugins {
 
 
 group = "dev.onelitefeather.glue"
-version = "1.0.0-SNAPSHOT"
+val baseVersion = "0.0.1"
+version = System.getenv("TAG_VERSION") ?: "$baseVersion-dev"
 
 repositories {
     mavenCentral()
@@ -28,6 +29,8 @@ kotlin {
 }
 
 gradlePlugin {
+    vcsUrl.set("https://github.com/OneLiteFeatherNET/Glue")
+    website.set("https://github.com/OneLiteFeatherNET/Glue")
     plugins {
         create("Glue") {
             id = "dev.onelitefeather.glue"
