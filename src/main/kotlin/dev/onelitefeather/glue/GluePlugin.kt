@@ -38,7 +38,7 @@ class GluePlugin : Plugin<Project> {
     ): TaskProvider<CheckoutRepo>? {
         val cloneTask = (upstream as? RepoPatcherUpstream)?.let { repo ->
             val cloneTask = tasks.configureTask<CheckoutRepo>(repo.cloneTaskName) {
-                group = "gitpatcher"
+                group = "Glue"
                 repoName.convention(repo.name)
                 url.convention(repo.url)
                 ref.convention(repo.ref)
