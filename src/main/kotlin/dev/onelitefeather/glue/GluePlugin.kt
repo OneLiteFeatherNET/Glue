@@ -19,10 +19,10 @@ import org.gradle.kotlin.dsl.registering
 
 class GluePlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        val patcher = target.extensions.create("Glue", GlueExtension::class, target)
+        val patcher = target.extensions.create("glue", GlueExtension::class, target)
 
-        val applyPatches by target.tasks.registering { group = "Glue" }
-        val rebuildPatches by target.tasks.registering { group = "Glue" }
+        val applyPatches by target.tasks.registering { group = "glue" }
+        val rebuildPatches by target.tasks.registering { group = "glue" }
 
         patcher.upstreams.all {
             val upstreamTask = target.createUpstreamTask(this)
@@ -57,7 +57,7 @@ class GluePlugin : Plugin<Project> {
         val cloneTask = (upstream as? RepoPatcherUpstream)?.let { repo ->
             val cloneTask = tasks.configureTask<CheckoutRepo>(repo.upstreamTaskName) {
                 dependsOn(upstreamTask)
-                group = "Glue"
+                group = "glue"
                 repoName.convention(repo.name)
                 url.convention(repo.url)
                 ref.convention(repo.ref)
@@ -77,7 +77,7 @@ class GluePlugin : Plugin<Project> {
         val project = this
         val patchTask = (config as? RepoPatcherUpstream)?.let { repo ->
             val patchTask = tasks.configureTask<ApplyFilePatches>(config.patchTaskName) {
-                group = "Glue"
+                group = "glue"
                 dependsOn(downstreamTask)
 
                 if (downstreamTask != null) {
@@ -103,7 +103,7 @@ class GluePlugin : Plugin<Project> {
 
     private fun Project.rebuildPatchTask(config: PatcherUpstream, rebuildPatches: TaskProvider<Task>): TaskProvider<RebuildGitPatches> {
         val rebuildTask = tasks.configureTask<RebuildGitPatches>(config.rebuildTaskName) {
-            group = "Glue"
+            group = "glue"
 
             base.convention(config.upstreamDir)
             patches.convention(config.patchDir)
