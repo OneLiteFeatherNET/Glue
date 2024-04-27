@@ -12,7 +12,6 @@ import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.registering
@@ -25,9 +24,9 @@ class GitPatcherPlugin : Plugin<Project> {
         val rebuildPatches by target.tasks.registering { group = "gitpatcher" }
 
         patcher.upstreams.all {
-            val upstreamTask = target.createUpstreamTask(this, patcher)
-            val downstreamTask = target.createDownstreamTask(this, patcher, upstreamTask)
-            target.createPatchTask(this, patcher, downstreamTask, applyPatches)
+            val upstreamTask = target.createUpstreamTask(this)
+            val downstreamTask = target.createDownstreamTask(this, upstreamTask)
+            target.createPatchTask(this, downstreamTask, applyPatches)
             target.rebuildPatchTask(this, rebuildPatches)
         }
 
