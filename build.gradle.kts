@@ -31,12 +31,10 @@ gradlePlugin {
     plugins {
         create("Glue") {
             id = "dev.onelitefeather.glue"
+            displayName = "Plugin for glue patches together into a git repo"
+            description = "A git patcher inspired by soft spoon of paper and glues patches and source together"
+            tags = listOf("git", "glue", "paper", "patches")
             implementationClass = "dev.onelitefeather.glue.GluePlugin"
         }
-    }
-}
-
-publishing {
-    repositories {
     }
 }
