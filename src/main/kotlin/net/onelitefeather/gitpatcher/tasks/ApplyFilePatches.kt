@@ -9,7 +9,6 @@ import java.time.Instant
 import net.onelitefeather.gitpatcher.utils.convertToPath
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.ResetCommand
-import org.eclipse.jgit.api.errors.RefNotFoundException
 import org.eclipse.jgit.lib.PersonIdent
 import org.eclipse.jgit.lib.RepositoryBuilder
 import org.eclipse.jgit.lib.RepositoryCache
@@ -27,7 +26,7 @@ import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 
-abstract class ApplyGitPatches : BaseTask() {
+abstract class ApplyFilePatches : BaseTask() {
 
     @get:Input
     @get:Option(

@@ -1,6 +1,6 @@
 package net.onelitefeather.gitpatcher.upstream
 
-import net.onelitefeather.gitpatcher.tasks.ApplyGitPatches
+import net.onelitefeather.gitpatcher.tasks.ApplyFilePatches
 import net.onelitefeather.gitpatcher.tasks.RebuildGitPatches
 import org.gradle.api.Named
 import org.gradle.api.file.DirectoryProperty
@@ -18,6 +18,6 @@ interface PatcherUpstream : Named {
 
     val patchTaskName: String
     val rebuildTaskName: String
-    val patchTask: TaskProvider<ApplyGitPatches>
+    val patchTask: TaskProvider<ApplyFilePatches>
     val rebuildTask: TaskProvider<RebuildGitPatches>
 }

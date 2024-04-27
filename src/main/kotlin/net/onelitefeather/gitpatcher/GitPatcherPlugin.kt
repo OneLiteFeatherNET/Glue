@@ -1,7 +1,6 @@
 package net.onelitefeather.gitpatcher
 
-import java.io.File
-import net.onelitefeather.gitpatcher.tasks.ApplyGitPatches
+import net.onelitefeather.gitpatcher.tasks.ApplyFilePatches
 import net.onelitefeather.gitpatcher.tasks.CheckoutRepo
 import net.onelitefeather.gitpatcher.tasks.RebuildGitPatches
 import net.onelitefeather.gitpatcher.upstream.PatcherUpstream
@@ -11,7 +10,6 @@ import net.onelitefeather.gitpatcher.utils.fileExists
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getValue
@@ -29,15 +27,14 @@ class GitPatcherPlugin : Plugin<Project> {
         patcher.upstreams.all {
             val upstreamTask = target.createUpstreamTask(this, patcher)
             val downstreamTask = target.createDownstreamTask(this, patcher, upstreamTask)
-            val patchTask = target.createPatchTask(this, patcher, downstreamTask, applyPatches)
+            target.createPatchTask(this, patcher, downstreamTask, applyPatches)
             target.rebuildPatchTask(this, rebuildPatches)
         }
 
     }
 
     private fun Project.createUpstreamTask(
-        upstream: PatcherUpstream,
-        ext: GitPatcherExtension,
+        upstream: PatcherUpstream
     ): TaskProvider<CheckoutRepo>? {
         val cloneTask = (upstream as? RepoPatcherUpstream)?.let { repo ->
             val cloneTask = tasks.configureTask<CheckoutRepo>(repo.cloneTaskName) {
@@ -55,7 +52,6 @@ class GitPatcherPlugin : Plugin<Project> {
 
     private fun Project.createDownstreamTask(
         upstream: PatcherUpstream,
-        ext: GitPatcherExtension,
         upstreamTask: TaskProvider<CheckoutRepo>?,
     ): TaskProvider<CheckoutRepo>? {
         val cloneTask = (upstream as? RepoPatcherUpstream)?.let { repo ->
@@ -75,13 +71,12 @@ class GitPatcherPlugin : Plugin<Project> {
 
     private fun Project.createPatchTask(
         config: PatcherUpstream,
-        ext: GitPatcherExtension,
         downstreamTask: TaskProvider<CheckoutRepo>?,
         applyPatches: TaskProvider<Task>
-    ): TaskProvider<ApplyGitPatches> {
+    ): TaskProvider<ApplyFilePatches> {
         val project = this
         val patchTask = (config as? RepoPatcherUpstream)?.let { repo ->
-            val patchTask = tasks.configureTask<ApplyGitPatches>(config.patchTaskName) {
+            val patchTask = tasks.configureTask<ApplyFilePatches>(config.patchTaskName) {
                 group = "gitpatcher"
                 dependsOn(downstreamTask)
 

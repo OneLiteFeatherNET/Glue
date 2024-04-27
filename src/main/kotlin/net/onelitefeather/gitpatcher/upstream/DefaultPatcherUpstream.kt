@@ -1,6 +1,6 @@
 package net.onelitefeather.gitpatcher.upstream
 
-import net.onelitefeather.gitpatcher.tasks.ApplyGitPatches
+import net.onelitefeather.gitpatcher.tasks.ApplyFilePatches
 import net.onelitefeather.gitpatcher.tasks.RebuildGitPatches
 import net.onelitefeather.gitpatcher.utils.capitalized
 import net.onelitefeather.gitpatcher.utils.providerFor
@@ -31,7 +31,7 @@ open class DefaultPatcherUpstream(
     override val rebuildTaskName: String
         get() = "rebuild${name.capitalized()}Patches"
 
-    override val patchTask: TaskProvider<ApplyGitPatches>
+    override val patchTask: TaskProvider<ApplyFilePatches>
         get() = tasks.providerFor(patchTaskName)
 
     override val rebuildTask: TaskProvider<RebuildGitPatches>
