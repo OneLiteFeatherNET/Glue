@@ -87,6 +87,10 @@ abstract class ApplyFilePatches : BaseTask() {
             .setShallowSince(Instant.MIN)
             .setRemoveDeletedRefs(true)
             .call()
+        downstreamGit.checkout()
+            .addPath(upstreamName.get())
+            .setName(branchName.getOrElse("master"))
+            .call()
         downstreamGit
             .reset()
             .setMode(ResetCommand.ResetType.HARD)
@@ -132,7 +136,8 @@ abstract class ApplyFilePatches : BaseTask() {
             .setAuthor(ident)
             .setSign(false)
             .call()
-        git.checkout().setName("current").setStartPoint(ref).call()
+        git.tagDelete().setTags("file").call()
+        git.tag().setName("file").setTagger(ident).setSigned(false).call()
         git.close()
     }
 }

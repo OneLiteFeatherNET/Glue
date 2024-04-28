@@ -6,10 +6,11 @@ plugins {
 
 
 group = "dev.onelitefeather.glue"
-val baseVersion = "0.0.1"
+val baseVersion = "0.0.3"
 version = System.getenv("TAG_VERSION") ?: "$baseVersion-dev"
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/") {
         mavenContent {
@@ -19,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation("codechicken:DiffPatch:1.5.0.30")
+    implementation("codechicken:DiffPatch:1.5.2.1")
     implementation("org.eclipse.jgit:org.eclipse.jgit:6.9.0.202403050737-r")
 
 }
