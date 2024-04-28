@@ -57,7 +57,7 @@ abstract class ApplyFilePatches : BaseTask() {
     abstract val patches: DirectoryProperty
 
     init {
-        verbose.convention(false)
+        verbose.convention(true)
     }
 
     @TaskAction
@@ -93,18 +93,6 @@ abstract class ApplyFilePatches : BaseTask() {
             .setRef(branchName.getOrElse("master"))
             .call()
 
-        /**downstreamGit.checkout()
-            .setAllPaths(true)
-            .setName(upstreamName.get()+"/"+branchName.getOrElse("master"))
-            .setForced(true)
-            .call()
-
-        downstreamGit.branchDelete()
-            .setBranchNames("current")
-            .setForce(true)
-            .call()**/
-
-
 
         val printStream = PrintStream(LoggingOutputStream(logger, LogLevel.LIFECYCLE))
         val result = PatchOperation.builder()
@@ -118,15 +106,17 @@ abstract class ApplyFilePatches : BaseTask() {
             .summary(verbose.get())
             .lineEnding("\n")
             .ignorePrefix(".git")
+            .ignorePrefix("*.jar")
             .build()
             .operate()
+        downstreamGit.close()
         commit()
         if (result.exit != 0) {
             val total = result.summary.failedMatches + result.summary.exactMatches +
                     result.summary.accessMatches + result.summary.offsetMatches + result.summary.fuzzyMatches
             throw Exception("Failed to apply ${result.summary.failedMatches}/$total hunks")
         }
-        downstreamGit.close()
+
 
         if (!verbose.get()) {
             logger.lifecycle("Applied ${result.summary.changedFiles} patches")
@@ -136,18 +126,13 @@ abstract class ApplyFilePatches : BaseTask() {
     private fun commit() {
         val ident = PersonIdent("File", "filepatches@automated.onelitefeather.net")
         val git = Git.open(output.convertToPath().toFile())
-        git.checkout().setName(branchName.getOrElse("master")).call()
         git.add().addFilepattern(".").call()
-        git.commit()
+        val ref = git.commit()
             .setMessage("File Patches")
             .setAuthor(ident)
             .setSign(false)
             .call()
-        git.branchDelete().setBranchNames("current").setForce(true).call()
-        git.tagDelete().setTags("file").call()
-        git.tag().setName("file").setTagger(ident).setSigned(false).call()
-        git.branchCreate().setName("current").setStartPoint("file").call()
-        git.checkout().setName("current").call()
+        git.checkout().setName("current").setStartPoint(ref).call()
         git.close()
     }
 }
