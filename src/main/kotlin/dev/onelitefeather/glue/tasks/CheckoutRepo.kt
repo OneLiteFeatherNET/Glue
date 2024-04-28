@@ -66,7 +66,11 @@ abstract class CheckoutRepo : BaseTask() {
             dir.deleteRecursive()
             dir.createDirectories()
 
-            Git.init().setDirectory(dir.toFile()).call()
+            Git.cloneRepository()
+                .setDirectory(dir.toFile())
+                .setURI(urlText)
+                .setRemote("origin")
+                .call()
         }
 
         val key = RepositoryCache.FileKey.lenient(dir.toFile(), FS.DETECTED)
@@ -85,7 +89,6 @@ abstract class CheckoutRepo : BaseTask() {
             .setAllPaths(true)
             .setName(ref.get())
             .call()
-        repo.clean().setForce(true).setIgnore(true).call()
         if (initializeSubmodules.get()) {
             if (initializeSubmodulesShallow.get()) {
                 repo.submoduleInit().call()
