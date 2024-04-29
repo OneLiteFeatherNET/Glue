@@ -22,6 +22,11 @@ dependencies {
 
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 kotlin {
     jvmToolchain(11)
 }
