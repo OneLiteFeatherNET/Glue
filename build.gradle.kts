@@ -27,12 +27,6 @@ kotlin {
     jvmToolchain(11)
 }
 
-tasks {
-    publish {
-        dependsOn(signing)
-    }
-}
-
 gradlePlugin {
     vcsUrl.set("https://github.com/OneLiteFeatherNET/Glue")
     website.set("https://github.com/OneLiteFeatherNET/Glue")
@@ -61,7 +55,7 @@ indra {
         publishing(false)
     }
     mitLicense()
-    signWithKeyFromPrefixedProperties("onelitefeather")
+    // signWithKeyFromPrefixedProperties("onelitefeather")
     configurePublications {
         pom {
             developers {
