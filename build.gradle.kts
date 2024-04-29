@@ -35,7 +35,6 @@ publishing {
     publications {
         named<MavenPublication>("maven") {
             from(components["java"])
-            from(components["signing"])
         }
     }
 }
