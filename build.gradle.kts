@@ -7,7 +7,6 @@ plugins {
     signing
 }
 
-
 group = "dev.onelitefeather.glue"
 val baseVersion = "0.0.3"
 version = System.getenv("TAG_VERSION") ?: "$baseVersion-dev"
@@ -25,6 +24,11 @@ dependencies {
 
 kotlin {
     jvmToolchain(11)
+}
+
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    val signingTasks = tasks.withType<Sign>()
+    mustRunAfter(signingTasks)
 }
 
 
