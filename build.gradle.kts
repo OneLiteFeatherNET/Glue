@@ -60,6 +60,8 @@ indra {
         testWith(11)
     }
 
+    includeJavaSoftwareComponentInPublications(false)
+
     github("OneLiteFeatherNET", "Glue") {
         ci(true)
         publishing(false)
