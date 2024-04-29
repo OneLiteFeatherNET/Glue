@@ -31,14 +31,6 @@ kotlin {
     jvmToolchain(11)
 }
 
-publishing {
-    publications {
-        named<MavenPublication>("maven") {
-            from(components["java"])
-        }
-    }
-}
-
 tasks.withType<AbstractPublishToMaven>().configureEach {
     val signingTasks = tasks.withType<Sign>()
     dependsOn(signingTasks)
