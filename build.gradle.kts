@@ -1,8 +1,8 @@
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
+    signing
     id("com.gradle.plugin-publish") version "1.2.1"
-    id("signing")
     id("net.kyori.indra") version "3.1.3"
     id("net.kyori.indra.publishing") version "3.1.3"
 }
@@ -25,6 +25,12 @@ dependencies {
 
 kotlin {
     jvmToolchain(11)
+}
+
+tasks {
+    publish {
+        dependsOn(signing)
+    }
 }
 
 gradlePlugin {
