@@ -4,6 +4,7 @@ plugins {
     id("com.gradle.plugin-publish") version "1.2.1"
     id("net.kyori.indra") version "3.1.3"
     id("net.kyori.indra.publishing") version "3.1.3"
+    signing
 }
 
 
@@ -26,6 +27,7 @@ kotlin {
     jvmToolchain(11)
 }
 
+
 gradlePlugin {
     vcsUrl.set("https://github.com/OneLiteFeatherNET/Glue")
     website.set("https://github.com/OneLiteFeatherNET/Glue")
@@ -45,8 +47,8 @@ indra {
     publishReleasesTo("eldo", "https://eldonexus.de/repository/maven-releases/")
     publishSnapshotsTo("eldo", "https://eldonexus.de/repository/maven-snapshots/")
     javaVersions {
-        target(17)
-        testWith(17)
+        target(11)
+        testWith(11)
     }
 
     github("OneLiteFeatherNET", "Glue") {
@@ -54,7 +56,7 @@ indra {
         publishing(false)
     }
     mitLicense()
-    // signWithKeyFromPrefixedProperties("onelitefeather")
+    signWithKeyFromPrefixedProperties("onelitefeather")
     configurePublications {
         pom {
             developers {
