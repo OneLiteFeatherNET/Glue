@@ -33,7 +33,7 @@ kotlin {
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        named<MavenPublication>("maven") {
             from(components["java"])
             from(components["signing"])
         }
