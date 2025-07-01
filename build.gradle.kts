@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     implementation("dev.onelitefeather:DiffPatch:1.5.3")
-    implementation("org.eclipse.jgit:org.eclipse.jgit:7.2.1.202505142326-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:7.3.0.202506031305-r")
 
 }
 
