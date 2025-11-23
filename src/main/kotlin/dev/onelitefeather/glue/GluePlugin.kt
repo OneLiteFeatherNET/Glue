@@ -56,7 +56,9 @@ class GluePlugin : Plugin<Project> {
     ): TaskProvider<CheckoutRepo>? {
         val cloneTask = (upstream as? RepoPatcherUpstream)?.let { repo ->
             val cloneTask = tasks.configureTask<CheckoutRepo>(repo.upstreamTaskName) {
-                dependsOn(upstreamTask)
+                if (upstreamTask != null) {
+                    dependsOn(upstreamTask)
+                }
                 group = "glue"
                 repoName.convention(repo.name)
                 url.convention(repo.url)
@@ -78,7 +80,9 @@ class GluePlugin : Plugin<Project> {
         val patchTask = (config as? RepoPatcherUpstream)?.let { repo ->
             val patchTask = tasks.configureTask<ApplyFilePatches>(config.patchTaskName) {
                 group = "glue"
-                dependsOn(downstreamTask)
+                if (downstreamTask != null) {
+                    dependsOn(downstreamTask)
+                }
 
                 if (downstreamTask != null) {
                     input.convention(repo.upstreamDir)
@@ -95,7 +99,9 @@ class GluePlugin : Plugin<Project> {
             return@let patchTask
         }
         applyPatches {
-            dependsOn(patchTask)
+            if (patchTask != null) {
+                dependsOn(patchTask)
+            }
         }
 
         return patchTask!!
