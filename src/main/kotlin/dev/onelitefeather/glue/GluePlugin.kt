@@ -35,8 +35,8 @@ class GluePlugin : Plugin<Project> {
 
     private fun Project.createUpstreamTask(
         upstream: PatcherUpstream
-    ): TaskProvider<CheckoutRepo>? {
-        val cloneTask = (upstream as? RepoPatcherUpstream)?.let { repo ->
+    ): TaskProvider<CheckoutRepo> {
+        val cloneTask = (upstream as RepoPatcherUpstream).let { repo ->
             val cloneTask = tasks.configureTask<CheckoutRepo>(repo.cloneTaskName) {
                 group = "Glue"
                 repoName.convention(repo.name)
@@ -52,11 +52,11 @@ class GluePlugin : Plugin<Project> {
 
     private fun Project.createDownstreamTask(
         upstream: PatcherUpstream,
-        upstreamTask: TaskProvider<CheckoutRepo>?,
+        upstreamTask: TaskProvider<CheckoutRepo>,
     ): TaskProvider<CheckoutRepo>? {
         val cloneTask = (upstream as? RepoPatcherUpstream)?.let { repo ->
             val cloneTask = tasks.configureTask<CheckoutRepo>(repo.upstreamTaskName) {
-                dependsOn(upstreamTask)
+                dependsOn(upstreamTask.get())
                 group = "glue"
                 repoName.convention(repo.name)
                 url.convention(repo.url)
@@ -75,10 +75,10 @@ class GluePlugin : Plugin<Project> {
         applyPatches: TaskProvider<Task>
     ): TaskProvider<ApplyFilePatches> {
         val project = this
-        val patchTask = (config as? RepoPatcherUpstream)?.let { repo ->
+        val patchTask = (config as RepoPatcherUpstream).let { repo ->
             val patchTask = tasks.configureTask<ApplyFilePatches>(config.patchTaskName) {
                 group = "glue"
-                dependsOn(downstreamTask)
+                downstreamTask?.let { task -> dependsOn(task) }
 
                 if (downstreamTask != null) {
                     input.convention(repo.upstreamDir)
@@ -98,7 +98,7 @@ class GluePlugin : Plugin<Project> {
             dependsOn(patchTask)
         }
 
-        return patchTask!!
+        return patchTask
     }
 
     private fun Project.rebuildPatchTask(config: PatcherUpstream, rebuildPatches: TaskProvider<Task>): TaskProvider<RebuildGitPatches> {

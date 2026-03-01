@@ -114,6 +114,6 @@ inline fun <reified T : Task> TaskContainer.configureTask(name: String, noinline
     }
 }
 
-fun <T : FileSystemLocation> Provider<out T>.fileExists(project: Project): Provider<out T?> {
+fun <T : FileSystemLocation> Provider<out T>.fileExists(project: Project): Provider<out T> {
     return flatMap { project.provider { it.takeIf { f -> f.path.exists() } } }
 }
