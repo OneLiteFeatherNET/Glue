@@ -12,11 +12,13 @@ import org.eclipse.jgit.transport.URIish
 import org.eclipse.jgit.util.FS
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
+@CacheableTask
 abstract class CheckoutRepo : BaseTask() {
 
     @get:Input
