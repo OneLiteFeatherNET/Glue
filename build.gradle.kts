@@ -19,7 +19,6 @@ repositories {
 dependencies {
     implementation("dev.onelitefeather:DiffPatch:1.5.3")
     implementation("org.eclipse.jgit:org.eclipse.jgit:7.5.0.202512021534-r")
-
 }
 
 java {
@@ -28,7 +27,7 @@ java {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 }
 
 tasks.withType<AbstractPublishToMaven>().configureEach {
@@ -56,8 +55,8 @@ indra {
     publishReleasesTo("eldo", "https://eldonexus.de/repository/maven-releases/")
     publishSnapshotsTo("eldo", "https://eldonexus.de/repository/maven-snapshots/")
     javaVersions {
-        target(11)
-        testWith(11)
+        target(17)
+        testWith(17)
     }
 
     github("OneLiteFeatherNET", "Glue") {
