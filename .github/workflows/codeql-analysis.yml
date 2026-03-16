@@ -19,6 +19,7 @@ jobs:
         uses: github/codeql-action/init@v4
         with:
           languages: java
+          queries: security-and-quality
       - name: Autobuild
         uses: github/codeql-action/autobuild@v4
 
