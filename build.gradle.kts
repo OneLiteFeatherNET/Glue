@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
     id("com.gradle.plugin-publish") version "2.1.0"
-    id("net.kyori.indra") version "3.2.0"
+    id("net.kyori.indra") version "4.0.0"
     id("net.kyori.indra.publishing") version "4.0.0"
     signing
 }
