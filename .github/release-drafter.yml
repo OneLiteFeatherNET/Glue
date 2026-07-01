@@ -1,4 +1,4 @@
-_extends: .github
+_extends: .github:/.github/release-drafter.yml
 template: |
   ## What’s Changed
 
