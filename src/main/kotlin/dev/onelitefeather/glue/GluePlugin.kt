@@ -21,8 +21,8 @@ class GluePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val patcher = target.extensions.create("glue", GlueExtension::class, target)
 
-        val applyPatches by target.tasks.registering { group = "glue" }
-        val rebuildPatches by target.tasks.registering { group = "glue" }
+        val applyPatches = target.tasks.register("applyPatches") { group = "glue" }
+        val rebuildPatches = target.tasks.register("rebuildPatches") { group = "glue" }
 
         patcher.upstreams.all {
             val upstreamTask = target.createUpstreamTask(this)
