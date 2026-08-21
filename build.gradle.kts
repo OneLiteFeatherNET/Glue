@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.onelitefeather.glue"
-val baseVersion = "0.0.3"
+val baseVersion = "0.0.16" // x-release-please-version
 version = System.getenv("TAG_VERSION") ?: "$baseVersion-dev"
 
 repositories {

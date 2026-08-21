@@ -6,7 +6,14 @@
   "packages": {
     ".": {
       "package-name": "Glue",
-      "changelog-path": "CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": [
+        {
+          "type": "generic",
+          "path": "build.gradle.kts"
+        }
+      ]
     }
-  }
+  },
+  "bootstrap-sha": "1299b7b6675859e3e81756426f50a950cc7dd8d3"
 }
