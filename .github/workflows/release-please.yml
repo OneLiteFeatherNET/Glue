@@ -1,0 +1,87 @@
+name: Release
+
+# release-please collects Conventional Commits into a release PR; merging it
+# tags the version and cuts the GitHub release. Everything that has to happen
+# for a release is chained into this same run on purpose: release-please tags
+# with GITHUB_TOKEN, and a tag pushed that way does NOT start a separate
+# `on: push: tags` workflow.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    uses: OneLiteFeatherNET/workflows/.github/workflows/release-please.yml@v2.8.1
+    secrets: inherit
+
+  publish:
+    name: Publish signed artifacts
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the released tag
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v6
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          cache: gradle
+          java-version: 17
+
+      # Kept as its own job rather than the shared gradle-publish workflow: this
+      # publish needs the GPG signing and Eldo credentials, which that workflow
+      # does not pass through.
+      - name: Publish
+        env:
+          TAG_VERSION: ${{ needs.release-please.outputs.tag_name }}
+          GPG_PRIVATE_KEY: ${{ secrets.ONELITEFEATHER_GPG_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.ONELITEFEATHER_GPG_PASSWORD }}
+          ORG_GRADLE_PROJECT_eldoUsername: ${{ secrets.ELDO_USERNAME }}
+          ORG_GRADLE_PROJECT_eldoPassword: ${{ secrets.ELDO_PASSWORD }}
+          ORG_GRADLE_PROJECT_onelitefeatherSigningKey: ${{ secrets.ONELITEFEATHER_GPG_KEY }}
+          ORG_GRADLE_PROJECT_onelitefeatherSigningPassword: ${{ secrets.ONELITEFEATHER_GPG_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.email "no-reply@github.com"
+          git config --global user.name "Github Actions"
+          ./gradlew publish -PforceSign=true
+          echo "Version: ${TAG_VERSION}" >> "$GITHUB_STEP_SUMMARY"
+  sbom:
+    name: Attach SBOM to release
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+
+      - name: Generate CycloneDX SBOM
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: cyclonedx
+          output: bom.json
+          # An SBOM is an inventory, not a finding list - never fail on it.
+          exit-code: '0'
+
+      - name: Attach SBOM to the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.release-please.outputs.tag_name }}
+        run: gh release upload "$TAG" bom.json --clobber
