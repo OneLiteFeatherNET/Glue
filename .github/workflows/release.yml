@@ -18,7 +18,7 @@ jobs:
         with:
           distribution: temurin
           cache: gradle
-          java-version: 17
+          java-version: 25
       - name: Publish
         env:
           TAG_VERSION: ${{ github.ref_name }}
